@@ -1,22 +1,18 @@
-class CookiePolicyService 
-{
-    storageType = localStorage;
+class CookiePolicyService {
+    storageType = window.localStorage;
     consentPropertyName = 'jdc_consent';
-    
-    constructor( policyUrl ) 
-    {
+
+    constructor(policyUrl) {
         this.policyUrl = policyUrl;
         this.self = this;
     }
 
-    websiteReady( boolean ) 
-    {   
+    websiteReady(boolean) {
         let doc, body
-            
-        document.onreadystatechange = () =>
-        {
+
+        document.onreadystatechange = () => {
             doc = document.readyState,
-            body = document.body;
+                body = document.body;
 
             try {
                 if (doc !== 'complete') throw 'Init while document not loaded';
@@ -30,39 +26,48 @@ class CookiePolicyService
             if (typeof (body) != 'undefined' && body != null) {
                 return boolean = true;
             }
-        };   
+        };
     }
 
-    cookieServiceStart()
-    {
+    cookieServiceStart() {
         // walktrought function
+        console.log(
+            this.storageType,
+            this.shouldShowPopup(),
+        );
     }
 
-    shouldShowPopup()
-    {
+    f() {
+        if (this.shouldShowPopup()) {
+            if( this.createCookieAgreement() )
+            {
+                this.saveToStorage();
+            }
+        }
+
+    }
+
+    shouldShowPopup() {
         return !this.storageType.getItem(this.consentPropertyName);
     }
 
-    saveToStorage()
-    {
+    saveToStorage() {
         return this.storageType.getItem(this.consentPropertyName, true);
     }
 
-    createCookieSerivcePopup()
-    {
-        
+    createCookieSerivcePopup() {
+
     }
 
-    createCookieAgreement()
-    {
-        
+    createCookieAgreement() {
+
     }
 
-    createCookieSerivce()
-    {
-        
+    createCookieSerivce() {
+
     }
 
 }
 
 service = new CookiePolicyService;
+service.cookieServiceStart();
