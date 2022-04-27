@@ -1,0 +1,42 @@
+@use "colors" as c;
+@use "fonts" as f;
+@use "btn" as b;
+@use "animations" as a;
+
+
+@mixin popup1 {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    bottom: 0;
+    // background-color: c.$popup1-bg;
+    padding: 15px 0px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    display: flex;
+    flex-direction: row;
+    transition: bottom ease-out 200ms;
+
+    div.cookieService-container {
+        flex: 0 0 60%;
+        margin: 0 auto;
+        background-color: c.$base;
+        display: flex;
+        flex-direction: row;
+
+        p,
+        div {
+            @include f.base;
+        }
+
+        p {
+            vertical-align: middle;
+            text-align: justify;
+            font-size: 12px;
+            padding-right: 13px;
+        }
+
+        div.cookieService-btn {
+            @include b.accept-btn;
+        }
+    }
+}

@@ -1,0 +1,19 @@
+@use 'colors' as v;
+@use 'elements' as e;
+
+* 
+{   
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box
+}
+
+body 
+{
+    background-color: v.$base;
+}
+
+.cookieService-wrapper
+{
+    @include e.popup1;
+}
