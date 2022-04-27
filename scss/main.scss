@@ -15,5 +15,6 @@ body
 
 .cookieService-wrapper
 {
+    z-index: 9999;
     @include e.popup1;
 }

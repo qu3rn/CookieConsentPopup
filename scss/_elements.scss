@@ -9,7 +9,7 @@
     height: auto;
     position: absolute;
     bottom: 0;
-    // background-color: c.$popup1-bg;
+    background-color: c.$popup1-bg;
     padding: 15px 0px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     display: flex;
@@ -19,7 +19,6 @@
     div.cookieService-container {
         flex: 0 0 60%;
         margin: 0 auto;
-        background-color: c.$base;
         display: flex;
         flex-direction: row;
 
