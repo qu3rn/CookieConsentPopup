@@ -75,7 +75,13 @@ class CookiePolicyService {
         let popupWrapper = document.createElement('div'),
             popupContainer = document.createElement('div'),
             popupP = document.createElement('p'),
-            popupBtn = document.createElement('div');
+            popupBtn = document.createElement('div'),
+            link = document.createElement('link');
+
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('type', 'text/css');
+        link.setAttribute('href', 'https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+        document.head.appendChild(link);
 
         popupWrapper.classList.add('cookieService-wrapper');
         popupContainer.classList.add('cookieService-container');
