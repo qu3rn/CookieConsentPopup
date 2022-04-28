@@ -1,10 +1,11 @@
 class CookiePolicyService {
 
-    constructor(policyUrl = '#', boxAnimSpeed = '.3s') {
+    constructor(policyUrl = '#', boxAnimSpeed = 4600) {
         this.policyUrl = policyUrl;
-        this.animation = boxAnimSpeed;
+        this.animBoxSpeed = boxAnimSpeed;
         this.cookiePolicyBox;
         this.self = this;
+        this.cookieServiceStart();
     }
 
     cookieStorage = {
@@ -32,8 +33,8 @@ class CookiePolicyService {
 
             try {
                 if (doc !== 'complete') throw 'Init while document not loaded';
-                if (body === null) throw 'Something happend to body/content loading';
-                if (typeof (body) === 'undefined') throw 'Body undefined'
+                if (body == null) throw 'Something happend to body/content loading';
+                if (typeof (body) == 'undefined') throw 'Body undefined'
             }
             catch (err) {
                 console.error(err);
@@ -47,7 +48,6 @@ class CookiePolicyService {
 
     cookieServiceStart() {
         // walktrought function
-        
         console.log(
             this.storageType,
             this.shouldShowPopup(),
@@ -74,18 +74,28 @@ class CookiePolicyService {
 
     createCookieSerivcePopupDOM(url,animSpeed) {
 
+        if(window.event.cancelBubble != undefined) {
+            // stop event bubbling for IE9 and lower
+            window.event.cancelBubble = true;
+        }
+
         url = url? url : this.policyUrl;
-        animSpeed = animSpeed? animSpeed : this.boxAnimSpeed;
+        animSpeed = animSpeed? animSpeed : this.animBoxSpeed;
+        const transition = `opacity ${animSpeed}ms ease`;
+
+        console.log(url, '\n', animSpeed);
 
         let popupWrapper = document.createElement('div'),
             popupContainer = document.createElement('div'),
             popupP = document.createElement('p'),
             popupBtn = document.createElement('div'),
             link = document.createElement('link'),
-            stylesWrapper = `z-index: 9999;width: 100%;height: auto;position: absolute;bottom: 0;background-color: #fff;padding: 8px 0px;-webkit-box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-orient: horizontal;-webkit-box-direction: normal;-ms-flex-direction: row;flex-direction: row;-webkit-transition: bottom ease-out ${animSpeed}, transform ${animSpeed} linear, margin ${animSpeed};transition: bottom ease-out ${animSpeed}, transform ${animSpeed} linear, margin ${animSpeed};`.trim(),
+            stylesWrapper = `z-index: 9999;width: 100%;height: auto;position: absolute;bottom: 0;background-color: #fff;padding: 8px 0px;-webkit-box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-orient: horizontal;-webkit-box-direction: normal;-ms-flex-direction: row;flex-direction: row;-webkit-transition: ${transition};transition: ${transition};`.trim(),
             stylesContainer = '-webkit-box-flex: 0;-ms-flex: 0 0 60%;flex: 0 0 60%;margin: 0 auto;display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-orient: horizontal;-webkit-box-direction: normal;-ms-flex-direction: row;flex-direction: row;'.trim(),
             stylesP = 'font-family: "Roboto", sans-serif;vertical-align: middle;text-align: justify;font-size: 10px;padding-right: 13px;'.trim(),
             stylesBtn = '-webkit-box-align: center; -ms-flex-align: center; align-items: center; background-color: #0a66c2; border: 0; border-radius: 100px; -webkit-box-sizing: border-box; box-sizing: border-box; color: #ffffff; cursor: pointer; display: -webkit-inline-box; display: -ms-inline-flexbox; display: inline-flex; font-family: -apple-system, system-ui, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 600; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; line-height: 20px; max-width: 480px; min-height: 40px; min-width: 0px; overflow: hidden; padding: 0px; padding-left: 20px; padding-right: 20px; text-align: center; -ms-touch-action: manipulation; touch-action: manipulation; -webkit-transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, -webkit-box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s; transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, -webkit-box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s; transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s; transition: background-color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, color 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s, -webkit-box-shadow 0.167s cubic-bezier(0.4, 0, 0.2, 1) 0s; -moz-user-select: none; -ms-user-select: none; user-select: none; -webkit-user-select: none; vertical-align: middle;'.trim();
+
+        console.log(stylesWrapper);
 
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('type', 'text/css');
@@ -104,17 +114,22 @@ class CookiePolicyService {
         popupContainer.appendChild(popupP);
         popupContainer.appendChild(popupBtn);
         document.body.appendChild(popupWrapper);
+        document.body.style.margin = '0';
 
         popupWrapper.style.cssText = stylesWrapper;
         popupContainer.style.cssText = stylesContainer;
         popupP.style.cssText = stylesP;
         popupBtn.style.cssText = stylesBtn;
 
+        popupBtn.addEventListener('transitionend', (e) => {
+            e.stopPropagation();
+        });
+
         popupBtn.addEventListener('mouseenter', (e) => { 
             popupBtn.style.backgroundColor = '#16437e';
             popupBtn.style.color = 'rgba(255, 255, 255, 0.7)';
         });
-
+        
         popupBtn.addEventListener('mouseleave', (e) => { 
             popupBtn.style.backgroundColor = '#0a66c2';
             popupBtn.style.color = '#ffffff';
@@ -128,15 +143,21 @@ class CookiePolicyService {
 
     removeCookieSerivcePopupDOM(elem) {
         try {
-            if(elem === null) throw 'cookiePolicyBox doesnt exist';
+            if(elem == null) throw 'cookiePolicyBox doesnt exist';
         }
         catch(err) {
             console.error(err);
             return;
         }
-
-        elem.style.bottom = '-100%';
         
+        elem.addEventListener('transitionend', (e) => {
+            elem.style.display = 'none';
+            elem.style.visibility = 'hidden';
+            elem.remove();
+        });
+
+        elem.style.opacity = '0';
+
     }
 
     createCookieAgreement() {
@@ -145,12 +166,10 @@ class CookiePolicyService {
     }
 
     accept(event) {
-        this.saveToStorage(this.storageType);
+        //this.saveToStorage(this.storageType);
         this.removeCookieSerivcePopupDOM(this.cookiePolicyBox);
     }
 
 }
 
 service = new CookiePolicyService;
-//service.createCookieSerivcePopupDOM();
-service.cookieServiceStart();
